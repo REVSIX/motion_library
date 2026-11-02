@@ -62,3 +62,22 @@ preserved separately from measured robot contacts; geometric alignment is report
 in each clip's `quality_review.json`. Object meshes are already scaled: do not
 apply the source scale again. The player animates them from the same frame index
 as the robot. The static-terrain training integration does not yet train pushing.
+
+### Articulated object parts
+
+The optional `object_part_*` arrays preserve cart casters and a separately moving
+payload. They accompany the existing main `object_*` body; all trajectories share
+robot timestamps and use world coordinates and `xyzw` quaternions.
+
+- `object_part_names`: K unique body names.
+- `object_part_pos_w`, `object_part_quat_w`: `(T,K,3)` and `(T,K,4)`.
+- `object_part_lin_vel_w`, `object_part_ang_vel_w`: `(T,K,3)`.
+- `object_part_vertices`, `object_part_faces`: concatenated independent meshes.
+- `object_part_vertex_counts`, `object_part_face_counts`: K positive counts delimiting each mesh.
+
+Each mesh uses vertices in its own body frame and **local** triangle indices
+starting at zero. The player creates a separate body for each part and writes its
+recorded world pose each frame. These parts are moving objects, not static terrain.
+The format specifies reference geometry and motion, not mass, friction or force targets.
+The library viewer supports these arrays; loading the NPZ in a robot-only mimic
+trainer does not automatically create a pushing task or its moving objects.

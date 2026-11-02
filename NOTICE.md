@@ -40,3 +40,17 @@ motion/video exports. No dynamic tracking success or training readiness is impli
 Motion references, contact annotations, and derived previews are CC BY-NC-SA 4.0.
 Object meshes are MIT; upstream notices are retained in that data directory.
 The repository code license does not replace these data licenses.
+
+## HumanoidMimicGen large cart push
+
+`data/humanoidmimicgen/large_cart_push/` derives from the public
+[Push Shelf Forward source demonstration](https://huggingface.co/datasets/linkenv/humanoidmimicgen-g1-source-demo-replay),
+revision `8553b2736497f41562bdf2476348b815fef68950`. Credit: HumanoidMimicGen,
+NVIDIA, and the linkenv source-demo replay release. The source card does not
+specify a dataset license; no new license for the motion is asserted here.
+The upstream repository's Apache-2.0 code license is not asserted to cover this dataset.
+Cart, caster and box meshes are RoboCasa-derived MIT assets from
+NVlabs/humanoidmimicgen, revision `cb314ae44dbf67ef92feb88aee9d1c0fb93246e4`.
+The MIT notice is preserved under `data/humanoidmimicgen/`.
+The derived ball-hand motion changes arm joints only. It is not data from
+arXiv:2606.05687, and does not validate that paper's payload masses or pushing forces.

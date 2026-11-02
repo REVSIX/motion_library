@@ -1,0 +1,30 @@
+{
+  "status": "retained_kinematic_candidate",
+  "motion_sha256": "7099b5bef71a98545fa13c1be20e98af56106c837cdf28266af6baf60177bd3e",
+  "frames": 1286,
+  "fps": 50.0,
+  "last_sample_time_s": 25.7,
+  "max_joint_limit_excess_rad": 0.0,
+  "max_joint_step_rad": 0.13794684410095215,
+  "min_foot_corner_height_above_floor_m": -0.010553434586474147,
+  "min_ball_surface_gap_to_cart_collision_boxes_m": -0.003275235527010041,
+  "inferred_contact_surface_error_m": {
+    "median": 6.172799188311484e-06,
+    "p95": 0.00035895052113660357,
+    "max": 0.003275235527010041
+  },
+  "cart_displacement_xy_m": 2.3911942242756226,
+  "root_lower_body_and_object_trajectories_unchanged": true,
+  "object_part_count": 9,
+  "dynamic_tracking_validated": false,
+  "full_body_collision_validated": false,
+  "source_contact_labels_available": false,
+  "note": "Contact intervals are inferred from source-pose proximity to original cart collision boxes, not measured force. Negative gaps indicate penetration. Arm IK changes the source motion to accommodate ball pads. Wheels and payload retain their recorded world trajectories.",
+  "screening_thresholds": {
+    "max_joint_limit_excess_rad": 0.0001,
+    "max_floor_penetration_m": 0.025,
+    "max_active_contact_error_m": 0.01,
+    "max_ball_penetration_m": 0.01,
+    "max_joint_step_rad": 0.15
+  }
+}

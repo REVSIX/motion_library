@@ -94,6 +94,7 @@ def export(sim: SimulationContext, scene: InteractiveScene):
             )
             if key in source
         }
+        object_data.update({key: source[key] for key in source.files if key.startswith("object_part_")})
         terrain = {
             key: source[key]
             for key in ("terrain_boxes", "terrain_box_quat", "terrain_vertices", "terrain_faces", "ground_height")
@@ -173,6 +174,30 @@ def export(sim: SimulationContext, scene: InteractiveScene):
         object_data["object_ang_vel_w"] = np.concatenate(
             (segments[:1], (segments[:-1] + segments[1:]) / 2, segments[-1:])
         )
+        if "object_part_names" in object_data:
+            part_positions, part_quats = [], []
+            for index in range(len(object_data["object_part_names"])):
+                part_positions.append(
+                    PchipInterpolator(source_times, object_data["object_part_pos_w"][:, index])(times)
+                )
+                part_quats.append(
+                    Slerp(source_times, Rotation.from_quat(object_data["object_part_quat_w"][:, index]))(
+                        times
+                    ).as_quat()
+                )
+            object_data["object_part_pos_w"] = np.stack(part_positions, axis=1)
+            object_data["object_part_quat_w"] = np.stack(part_quats, axis=1)
+            object_data["object_part_lin_vel_w"] = np.gradient(
+                object_data["object_part_pos_w"], 1 / args_cli.fps, axis=0, edge_order=2
+            )
+            part_velocities = []
+            for quats in part_quats:
+                rotations = Rotation.from_quat(quats)
+                segments = (rotations[1:] * rotations[:-1].inv()).as_rotvec() * args_cli.fps
+                part_velocities.append(
+                    np.concatenate((segments[:1], (segments[:-1] + segments[1:]) / 2, segments[-1:]))
+                )
+            object_data["object_part_ang_vel_w"] = np.stack(part_velocities, axis=1)
         previous = np.minimum(np.floor(times * source_fps + 1e-8).astype(int), len(qpos) - 1)
         for key in ("source_object_contact_flags", "source_contact_points_object", "object_ground_contact"):
             if key in object_data:

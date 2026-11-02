@@ -13,6 +13,7 @@ ROOT = Path(__file__).resolve().parents[1]
 LABELS = {
     "claw": "CLAW",
     "hoi_retarget": "HOI-Retarget",
+    "humanoidmimicgen": "HumanoidMimicGen",
     "omniretarget": "OmniRetarget",
     "parc": "PARC",
     "deep_wholebody_parkour": "Deep Whole-body Parkour",

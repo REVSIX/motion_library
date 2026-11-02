@@ -12,6 +12,7 @@ data_generator/
   kimodo/                 # Generation, constraints, contact refinement
   claw/                   # Import released G1 trajectories
   omniretarget/           # Import G1 motions and supplied terrain
+  humanoidmimicgen/       # Import large cart push with articulated wheels and payload
   hoi_retarget/           # Import G1 pushing with moving-object meshes and contacts
   lafan/                  # Download/import public G1 retargets for local use
   mixamo/                 # Import local FBX with Blender + G1 IK
@@ -65,10 +66,12 @@ drivers are not pip dependencies of this standalone library. See the
 
 ## Data and provenance
 
-The active catalog contains 79 clips: 45 non-Kimodo references, 22 experimental
+The active catalog contains 80 clips: 46 non-Kimodo references, 22 experimental
 Kimodo references, and 12 Mixamo candidates, including five restored ladder clips. Public Mixamo entries
 include videos, paired NPZs with terrain, and provenance/review reports. Every active
 NPZ contains box or mesh terrain, and every clip has one current video variant.
+The [large cart push](data_generator/humanoidmimicgen/README.md) includes a 25.7-second
+G1 demonstration with original cart geometry, rotating wheels, and a moving box payload.
 Four HOI-Retarget/OMOMO pushing references include their moving objects, source contact labels,
 and exact-asset replay videos; see [pushing import](data_generator/hoi_retarget/README.md).
 Terrain-free LAFAN and early Kimodo references and poor Mixamo pairings have been

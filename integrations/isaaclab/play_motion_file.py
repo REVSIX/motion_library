@@ -176,6 +176,15 @@ class NpzMotion:
             )
             if self.object_pose.shape != (len(self.joint_pos), 7):
                 raise ValueError("Object and robot trajectories must have matching frame counts.")
+        self.object_part_poses = None
+        if "object_part_names" in data:
+            self.object_part_poses = torch.tensor(
+                np.concatenate((data["object_part_pos_w"], data["object_part_quat_w"]), axis=-1),
+                dtype=torch.float32,
+                device=device,
+            )
+            if self.object_part_poses.shape != (len(self.joint_pos), len(data["object_part_names"]), 7):
+                raise ValueError("Object part and robot trajectories must have matching frame counts.")
         data.close()
         self.num_frames = self.joint_pos.shape[0]
         if not self.num_frames:
@@ -281,6 +290,12 @@ def run_simulator(sim: SimulationContext, scene: InteractiveScene):
                 object_pose[:, :2] += scene.env_origins[:, :2]
                 scene["reference_object"].write_root_pose_to_sim_index(root_pose=object_pose)
 
+            if motion.object_part_poses is not None:
+                for index in range(motion.object_part_poses.shape[1]):
+                    pose = motion.object_part_poses[frame_index : frame_index + 1, index].clone()
+                    pose[:, :2] += scene.env_origins[:, :2]
+                    scene[f"reference_part_{index}"].write_root_pose_to_sim_index(root_pose=pose)
+
             # aim the camera before rendering so the captured frame matches the pose being shown
             pos_lookat = root_states[0, :3].cpu().numpy()
             if motion.object_pose is not None:
@@ -381,6 +396,34 @@ def main():
                         rot=tuple(data["object_quat_w"][0]),
                     ),
                 )
+            if "object_part_names" in data:
+                vertex_start, face_start = 0, 0
+                for index, name in enumerate(data["object_part_names"]):
+                    vertex_end = vertex_start + int(data["object_part_vertex_counts"][index])
+                    face_end = face_start + int(data["object_part_face_counts"][index])
+                    color = (0.65, 0.45, 0.25) if name == "box_main" else (0.2, 0.22, 0.25)
+                    setattr(
+                        scene_cfg,
+                        f"reference_part_{index}",
+                        RigidObjectCfg(
+                            prim_path=f"/World/ReferencePart{index}",
+                            spawn=sim_utils.MeshFileCfg(
+                                mesh=sim_utils.MeshFileCfg.TriangleMeshCfg(
+                                    vertices=data["object_part_vertices"][vertex_start:vertex_end],
+                                    faces=data["object_part_faces"][face_start:face_end],
+                                ),
+                                rigid_props=sim_utils.RigidBodyPropertiesCfg(disable_gravity=True),
+                                mass_props=sim_utils.MassPropertiesCfg(mass=1.0),
+                                collision_props=None,
+                                visual_material=sim_utils.PreviewSurfaceCfg(diffuse_color=color),
+                            ),
+                            init_state=RigidObjectCfg.InitialStateCfg(
+                                pos=tuple(data["object_part_pos_w"][0, index]),
+                                rot=tuple(data["object_part_quat_w"][0, index]),
+                            ),
+                        ),
+                    )
+                    vertex_start, face_start = vertex_end, face_end
             if "robot_asset" in data:
                 asset_name = str(data["robot_asset"].item())
                 assets = {

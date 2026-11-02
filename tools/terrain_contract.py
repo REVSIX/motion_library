@@ -63,6 +63,45 @@ def require_object(data, path):
         raise ValueError(f"Invalid object mesh faces: {path}")
     if faces.min() < 0 or faces.max() >= len(vertices):
         raise ValueError(f"Invalid object triangle indices: {path}")
+    part_keys = {
+        "object_part_names",
+        "object_part_pos_w",
+        "object_part_quat_w",
+        "object_part_lin_vel_w",
+        "object_part_ang_vel_w",
+        "object_part_vertices",
+        "object_part_faces",
+        "object_part_vertex_counts",
+        "object_part_face_counts",
+    }
+    if any(key in data for key in part_keys):
+        if not part_keys.issubset(data):
+            raise ValueError(f"Incomplete object parts: {path}")
+        names = data["object_part_names"]
+        count = len(names)
+        if names.ndim != 1 or not count or len(set(names)) != count:
+            raise ValueError(f"Invalid object part names: {path}")
+        for key, width in [("pos", 3), ("quat", 4), ("lin_vel", 3), ("ang_vel", 3)]:
+            values = data[f"object_part_{key}_w"]
+            if values.shape != (n, count, width) or not np.isfinite(values).all():
+                raise ValueError(f"Invalid object part trajectory: {key}: {path}")
+        if not np.allclose(np.linalg.norm(data["object_part_quat_w"], axis=-1), 1, atol=1e-4):
+            raise ValueError(f"Invalid object part quaternions: {path}")
+        for key in ("vertex", "face"):
+            counts = data[f"object_part_{key}_counts"]
+            if counts.shape != (count,) or not np.issubdtype(counts.dtype, np.integer) or (counts <= 0).any():
+                raise ValueError(f"Invalid object part mesh counts: {path}")
+        vertices, faces = data["object_part_vertices"], data["object_part_faces"]
+        if vertices.shape != (int(data["object_part_vertex_counts"].sum()), 3) or not np.isfinite(vertices).all():
+            raise ValueError(f"Invalid object part vertices: {path}")
+        if faces.shape != (int(data["object_part_face_counts"].sum()), 3) or not np.issubdtype(faces.dtype, np.integer):
+            raise ValueError(f"Invalid object part triangles: {path}")
+        start = 0
+        for vertex_count, face_count in zip(data["object_part_vertex_counts"], data["object_part_face_counts"]):
+            part_faces = faces[start : start + face_count]
+            if part_faces.min() < 0 or part_faces.max() >= vertex_count:
+                raise ValueError(f"Invalid per-part local triangle indices: {path}")
+            start += face_count
     contact_keys = {"source_contact_link_names", "source_object_contact_flags", "source_contact_points_object"}
     if any(key in data for key in contact_keys):
         if not contact_keys.issubset(data):
@@ -96,7 +135,7 @@ def require_active_dataset(root):
         with np.load(path, allow_pickle=False) as data:
             require_scene(data, path)
             require_object(data, path)
-        if clip_id.startswith("hoi_retarget/"):
+        if clip_id.startswith(("hoi_retarget/", "humanoidmimicgen/")):
             report = json.loads((path.parent / "quality_review.json").read_text())
             if (
                 report["status"] != "retained_kinematic_candidate"

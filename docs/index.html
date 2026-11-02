@@ -7,16 +7,21 @@
   <title>G1 Motion Library</title>
   <link rel="stylesheet" href="style.css">
   <script defer src="config.js"></script>
-  <script defer src="catalog.js?v=20261102-pushing"></script>
-  <script defer src="app.js?v=20261102-pushing"></script>
+  <script defer src="catalog.js?v=20261102-large-cart"></script>
+  <script defer src="app.js?v=20261102-large-cart"></script>
 </head>
 <body>
 <header><a class="brand" href="index.html"><span class="mark">G1</span> Motion library</a><a id="repository" class="quiet" href="https://github.com/jnskkmhr/motion_library">GitHub ↗</a></header>
 <main>
   <div class="intro"><div><p class="eyebrow">WHOLE-BODY MOTION · 29 DOF</p><h1>One robot. Many ways to move.</h1><p class="sub">Motion references with terrain and moving objects. Choose a clip to inspect the movement and its data.</p></div><div class="total"><strong id="total">—</strong><span>motion clips</span></div></div>
   <nav id="sources" aria-label="Motion sources"></nav>
-  <p class="sub"><a href="#hoi_retarget%2Fbox_push" onclick="location.hash='hoi_retarget%2Fbox_push';location.reload();return false">New: four object-pushing motions ↗</a></p>
+  <p class="sub"><a href="#humanoidmimicgen%2Flarge_cart_push" onclick="location.hash='humanoidmimicgen%2Flarge_cart_push';location.reload();return false">New: large wheeled cart push ↗</a></p>
   <details class="source-notes"><summary>Motion sources: what is available here?</summary>
+    <p><strong>HumanoidMimicGen:</strong> a 25.7-second G1 demonstration pushing a full-height wheeled cart by 2.39 m.
+    The NPZ includes the original cart mesh, wheel and payload motion, and floor. Arm poses are adapted for spherical pads.
+    This is recorded simulation motion, not motion capture or data from the heavy-pushing paper. Dynamic tracking and payload forces are unvalidated.
+    The source dataset card does not specify a data license; the cart assets retain their MIT notice.
+    <a href="https://github.com/jnskkmhr/motion_library/blob/main/data_generator/humanoidmimicgen/README.md">Source and reproduction ↗</a></p>
     <p><strong>HOI-Retarget:</strong> four G1 pushing references from OMOMO: box, table, plastic box, and suitcase.
     Videos replay the exported ball-hand G1 and the supplied moving object mesh. NPZs include the floor,
     object trajectory, geometry, and source contact annotations. Motion data: CC BY-NC-SA 4.0; object meshes: MIT.

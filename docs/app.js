@@ -45,8 +45,8 @@ function select(clip, index = 0) {
   $("status").className = "badge" + (clip.experimental ? " experimental" : "");
   $("duration").textContent = `${v.duration.toFixed(2)} s`;
   $("fps").textContent = `${v.fps} FPS`;
-  const terrainLabel = clip.source === "hoi_retarget" ? "Floor" : ({mesh:"Triangle mesh",boxes:"Boxes",ground:"Ground",missing:"Obstacle not supplied"})[v.terrain];
-  const objectLabel = ({largebox:"box",plasticbox:"plastic box",largetable:"table",suitcase:"suitcase"})[v.object] || v.object;
+  const terrainLabel = ["hoi_retarget", "humanoidmimicgen"].includes(clip.source) ? "Floor" : ({mesh:"Triangle mesh",boxes:"Boxes",ground:"Ground",missing:"Obstacle not supplied"})[v.terrain];
+  const objectLabel = ({large_shelving_cart:"wheeled cart + payload",largebox:"box",plasticbox:"plastic box",largetable:"table",suitcase:"suitcase"})[v.object] || v.object;
   $("terrain").textContent = terrainLabel + (v.object ? ` + moving ${objectLabel}` : "");
   const upstream = clip.local_only || clip.preview_only;
   $("npz-github").hidden = upstream && !clip.source_url;
@@ -88,5 +88,5 @@ document.addEventListener("keydown", e => {
 $("repository").href = config.repository; $("total").textContent = clips.length;
 try { selected = clips.find(c => c.id === decodeURIComponent(location.hash.slice(1))); } catch { selected = null; }
 if (selected?.source) source = selected.source;
-selected ||= clips.find(c => c.id === "hoi_retarget/box_push") || clips.find(c => c.id === "mixamo/crawling") || clips.find(c => c.id === "parc/jump_005") || clips[0];
+selected ||= clips.find(c => c.id === "humanoidmimicgen/large_cart_push") || clips.find(c => c.id === "hoi_retarget/box_push") || clips.find(c => c.id === "mixamo/crawling") || clips.find(c => c.id === "parc/jump_005") || clips[0];
 renderCategories(); renderSources(); renderList();

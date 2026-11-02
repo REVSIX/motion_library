@@ -226,6 +226,39 @@
       "poster": "data/hoi_retarget/table_push/preview.jpg"
     },
     {
+      "id": "humanoidmimicgen/large_cart_push",
+      "source": "humanoidmimicgen",
+      "source_name": "HumanoidMimicGen",
+      "name": "Large wheeled cart push",
+      "category": "Object pushing",
+      "description": "25.7 s G1 reference pushing a full-height wheeled cart by 2.39 m. Includes the original cart, rotating wheels, moving box and floor. Arm poses are adapted for ball hands; dynamic pushing is unvalidated.",
+      "experimental": false,
+      "local_only": false,
+      "source_url": "https://huggingface.co/datasets/linkenv/humanoidmimicgen-g1-source-demo-replay",
+      "variants": [
+        {
+          "name": "Reference",
+          "npz": "data/humanoidmimicgen/large_cart_push/motion.npz",
+          "video": "data/humanoidmimicgen/large_cart_push/motion.mp4",
+          "fps": 50.0,
+          "frames": 1286,
+          "duration": 25.72,
+          "last_sample_time": 25.7,
+          "sha256": "7099b5bef71a98545fa13c1be20e98af56106c837cdf28266af6baf60177bd3e",
+          "asset": "UNITREE_G1_29DOF_BALL_HAND_CFG",
+          "terrain": "boxes",
+          "object": "large_shelving_cart"
+        }
+      ],
+      "reports": {
+        "quality_review": "data/humanoidmimicgen/large_cart_push/quality_review.json",
+        "provenance": "data/humanoidmimicgen/large_cart_push/provenance.json",
+        "render": "data/humanoidmimicgen/large_cart_push/render.json",
+        "hand_refinement": "data/humanoidmimicgen/large_cart_push/hand_refinement.json"
+      },
+      "poster": "data/humanoidmimicgen/large_cart_push/preview.jpg"
+    },
+    {
       "id": "omniretarget/climb_00",
       "source": "omniretarget",
       "source_name": "OmniRetarget",

@@ -15,6 +15,7 @@ dependencies = [
   "imageio-ffmpeg>=0.5",
   "huggingface-hub>=0.34,<2",
   "pyarrow>=18,<24",
+  "h5py>=3.11,<4",
 ]
 
 [project.optional-dependencies]
