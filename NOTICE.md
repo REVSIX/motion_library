@@ -32,3 +32,11 @@ Upstream sources are recorded in each clip's provenance:
 
 Provenance, geometric reports, and conversion metadata are retained alongside
 motion/video exports. No dynamic tracking success or training readiness is implied.
+
+## HOI-Retarget / OMOMO pushing
+
+`data/hoi_retarget/` contains adapted G1 motion references from leggedrobotics/hoi-retarget
+(revision b5ac8125e497e6735d6314e63a0e1eedf6229336), using OMOMO mocap and InterAct contacts.
+Motion references, contact annotations, and derived previews are CC BY-NC-SA 4.0.
+Object meshes are MIT; upstream notices are retained in that data directory.
+The repository code license does not replace these data licenses.

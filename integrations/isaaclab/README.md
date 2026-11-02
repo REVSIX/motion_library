@@ -42,3 +42,12 @@ a sampled motion selects its paired patch translation for that robot environment
 Terrain is not rebuilt per reset. The current integration supplies reference data
 and geometry; contact-rich tracking rewards and successful training remain to be
 validated.
+
+## Pushing references
+
+The player also reads the optional moving-object fields in the [NPZ contract](../../data/README.md#moving-object-references).
+It replays the actual mesh and object pose alongside the ball-hand G1 at the same frame index.
+For example, set `--motion_file data/hoi_retarget/box_push/motion.npz`.
+This is visual replay with prescribed object motion, not dynamic pushing.
+The training terrain importer remains static-only: pushing training additionally requires
+spawning a dynamic object, paired resets, and object/contact rewards.

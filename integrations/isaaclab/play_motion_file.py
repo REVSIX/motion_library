@@ -81,7 +81,7 @@ from isaaclab_newton.physics import MJWarpSolverCfg, NewtonCfg
 from isaaclab_visualizers.newton import NewtonGLVisualizerCfg
 
 import isaaclab.sim as sim_utils
-from isaaclab.assets import ArticulationCfg, AssetBaseCfg
+from isaaclab.assets import ArticulationCfg, AssetBaseCfg, RigidObjectCfg
 from isaaclab.scene import InteractiveScene, InteractiveSceneCfg
 from isaaclab.sim import SimulationContext
 from isaaclab.utils.configclass import configclass
@@ -165,6 +165,17 @@ class NpzMotion:
             raise ValueError(f"Unsupported motion quaternion order: {quaternion_order!r}")
         if quaternion_order == "wxyz":
             self.body_quat_w = convert_quat(self.body_quat_w, to="xyzw")
+        self.object_pose = None
+        if "object_pos_w" in data:
+            if quaternion_order != "xyzw":
+                raise ValueError("Moving-object references require explicit xyzw quaternions.")
+            self.object_pose = torch.tensor(
+                np.concatenate((data["object_pos_w"], data["object_quat_w"]), axis=1),
+                dtype=torch.float32,
+                device=device,
+            )
+            if self.object_pose.shape != (len(self.joint_pos), 7):
+                raise ValueError("Object and robot trajectories must have matching frame counts.")
         data.close()
         self.num_frames = self.joint_pos.shape[0]
         if not self.num_frames:
@@ -265,8 +276,15 @@ def run_simulator(sim: SimulationContext, scene: InteractiveScene):
             robot.write_joint_position_to_sim_index(position=joint_pos)
             robot.write_joint_velocity_to_sim_index(velocity=joint_vel)
 
+            if motion.object_pose is not None:
+                object_pose = motion.object_pose[frame_index : frame_index + 1].clone()
+                object_pose[:, :2] += scene.env_origins[:, :2]
+                scene["reference_object"].write_root_pose_to_sim_index(root_pose=object_pose)
+
             # aim the camera before rendering so the captured frame matches the pose being shown
             pos_lookat = root_states[0, :3].cpu().numpy()
+            if motion.object_pose is not None:
+                pos_lookat = (pos_lookat + object_pose[0, :3].cpu().numpy()) / 2
             camera_offset = np.array(
                 args_cli.camera_offset
                 if args_cli.camera_offset is not None
@@ -346,6 +364,23 @@ def main():
                     visual_material=sim_utils.PreviewSurfaceCfg(diffuse_color=(0.35, 0.45, 0.55)),
                 )
                 scene_cfg.terrain_mesh = AssetBaseCfg(prim_path="/World/TerrainMesh")
+            if "object_pos_w" in data:
+                scene_cfg.reference_object = RigidObjectCfg(
+                    prim_path="/World/ReferenceObject",
+                    spawn=sim_utils.MeshFileCfg(
+                        mesh=sim_utils.MeshFileCfg.TriangleMeshCfg(
+                            vertices=data["object_vertices"], faces=data["object_faces"]
+                        ),
+                        rigid_props=sim_utils.RigidBodyPropertiesCfg(disable_gravity=True),
+                        mass_props=sim_utils.MassPropertiesCfg(mass=1.0),
+                        collision_props=None,  # Prescribed kinematic replay; this is not a dynamics experiment.
+                        visual_material=sim_utils.PreviewSurfaceCfg(diffuse_color=(0.65, 0.38, 0.15)),
+                    ),
+                    init_state=RigidObjectCfg.InitialStateCfg(
+                        pos=tuple(data["object_pos_w"][0]),
+                        rot=tuple(data["object_quat_w"][0]),
+                    ),
+                )
             if "robot_asset" in data:
                 asset_name = str(data["robot_asset"].item())
                 assets = {

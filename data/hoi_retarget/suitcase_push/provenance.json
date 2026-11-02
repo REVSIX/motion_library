@@ -1,0 +1,30 @@
+{
+  "display_name": "Two-hand suitcase push",
+  "category": "Object pushing",
+  "description": "G1 reference with a moving object mesh and floor. Source hand-contact labels are retained; ball-hand contact and dynamic tracking require validation.",
+  "source_url": "https://huggingface.co/datasets/leggedrobotics/hoi-retarget",
+  "source_dataset": "leggedrobotics/hoi-retarget",
+  "source_revision": "b5ac8125e497e6735d6314e63a0e1eedf6229336",
+  "source_clip_id": "omomo/unitree_g1/sub4_suitcase_001",
+  "source_motion_capture": "OMOMO",
+  "source_contact_annotations": "InterAct",
+  "license": "CC-BY-NC-SA-4.0",
+  "object_mesh_license": "MIT",
+  "object_mesh_sources": [
+    "assets/objects/suitcase.urdf",
+    "assets/objects/objects/suitcase/suitcase.obj"
+  ],
+  "object_mesh_scale": 0.8299999833106995,
+  "source_fps": 30.0,
+  "source_frames": 195,
+  "source_qc_pass": true,
+  "source_joint_step_max_deg": 7.118989944458008,
+  "source_object_displacement_xy_m": 1.9044240804414625,
+  "source_two_hand_contact_fraction": 0.8564102564102564,
+  "source_quaternion_order": "wxyz",
+  "output_quaternion_order": "xyzw",
+  "floor": "Source z=0 floor represented by a finite 0.1 m thick slab; top surface remains z=0.",
+  "object_trajectory_modified": false,
+  "dynamic_tracking_validated": false,
+  "import_sha256": "11027d659517f52d5d44507227ccada7edcdf3c38f595732d1624a576ff59744"
+}

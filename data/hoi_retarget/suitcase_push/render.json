@@ -1,0 +1,12 @@
+{
+  "renderer": "Isaac Lab / Newton GL",
+  "kinematic_replay": true,
+  "robot_asset": "UNITREE_G1_29DOF_BALL_HAND_CFG",
+  "camera_offset": [
+    1.969708103124984,
+    -0.01581102412172941,
+    0.7
+  ],
+  "motion_sha256": "489150477d6d0ccdf62297d7421e4dc753ceb3ef48b77a6f30372a859bb0b8b7",
+  "video_sha256": "8cff99d81943dfd729c35d2d897718dba91e849c2eb3269fd2855358324ad9e7"
+}

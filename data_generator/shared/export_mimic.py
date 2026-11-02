@@ -79,6 +79,21 @@ def export(sim: SimulationContext, scene: InteractiveScene):
         qpos, source_fps = source["qpos"], float(source["fps"])
         source_names = source["joint_names"].tolist()
         contacts = source.get("foot_contacts")
+        object_data = {
+            key: source[key]
+            for key in (
+                "object_name",
+                "object_pos_w",
+                "object_quat_w",
+                "object_vertices",
+                "object_faces",
+                "source_contact_link_names",
+                "source_object_contact_flags",
+                "source_contact_points_object",
+                "object_ground_contact",
+            )
+            if key in source
+        }
         terrain = {
             key: source[key]
             for key in ("terrain_boxes", "terrain_box_quat", "terrain_vertices", "terrain_faces", "ground_height")
@@ -140,6 +155,29 @@ def export(sim: SimulationContext, scene: InteractiveScene):
     if contacts is not None:
         nearest = np.minimum(np.rint(times * source_fps).astype(int), len(contacts) - 1)
         terrain["foot_contacts"] = contacts[nearest]
+    if object_data:
+        required = {"object_name", "object_pos_w", "object_quat_w", "object_vertices", "object_faces"}
+        if not required.issubset(object_data):
+            raise ValueError(f"Incomplete moving-object reference: {required - object_data.keys()}")
+        if object_data["object_pos_w"].shape != (len(qpos), 3) or object_data["object_quat_w"].shape != (len(qpos), 4):
+            raise ValueError("Object and robot trajectories must share source timestamps.")
+        object_data["object_pos_w"] = PchipInterpolator(source_times, object_data["object_pos_w"])(times)
+        object_data["object_quat_w"] = Slerp(source_times, Rotation.from_quat(object_data["object_quat_w"]))(
+            times
+        ).as_quat()
+        object_data["object_lin_vel_w"] = np.gradient(
+            object_data["object_pos_w"], 1 / args_cli.fps, axis=0, edge_order=2
+        )
+        rotations = Rotation.from_quat(object_data["object_quat_w"])
+        segments = (rotations[1:] * rotations[:-1].inv()).as_rotvec() * args_cli.fps
+        object_data["object_ang_vel_w"] = np.concatenate(
+            (segments[:1], (segments[:-1] + segments[1:]) / 2, segments[-1:])
+        )
+        previous = np.minimum(np.floor(times * source_fps + 1e-8).astype(int), len(qpos) - 1)
+        for key in ("source_object_contact_flags", "source_contact_points_object", "object_ground_contact"):
+            if key in object_data:
+                object_data[key] = object_data[key][previous]
+        terrain.update(object_data)
     args_cli.output.parent.mkdir(parents=True, exist_ok=True)
     np.savez_compressed(
         args_cli.output,

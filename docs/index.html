@@ -7,15 +7,20 @@
   <title>G1 Motion Library</title>
   <link rel="stylesheet" href="style.css">
   <script defer src="config.js"></script>
-  <script defer src="catalog.js?v=20261026-ladders"></script>
-  <script defer src="app.js?v=20261026-ladders"></script>
+  <script defer src="catalog.js?v=20261102-pushing"></script>
+  <script defer src="app.js?v=20261102-pushing"></script>
 </head>
 <body>
 <header><a class="brand" href="index.html"><span class="mark">G1</span> Motion library</a><a id="repository" class="quiet" href="https://github.com/jnskkmhr/motion_library">GitHub ↗</a></header>
 <main>
-  <div class="intro"><div><p class="eyebrow">WHOLE-BODY MOTION · 29 DOF</p><h1>One robot. Many ways to move.</h1><p class="sub">Motion references with terrain. Choose a clip to inspect the movement and its data.</p></div><div class="total"><strong id="total">—</strong><span>motion clips</span></div></div>
+  <div class="intro"><div><p class="eyebrow">WHOLE-BODY MOTION · 29 DOF</p><h1>One robot. Many ways to move.</h1><p class="sub">Motion references with terrain and moving objects. Choose a clip to inspect the movement and its data.</p></div><div class="total"><strong id="total">—</strong><span>motion clips</span></div></div>
   <nav id="sources" aria-label="Motion sources"></nav>
-  <details class="source-notes"><summary>ACP motion sources: what is available here?</summary>
+  <p class="sub"><a href="#hoi_retarget%2Fbox_push" onclick="location.hash='hoi_retarget%2Fbox_push';location.reload();return false">New: four object-pushing motions ↗</a></p>
+  <details class="source-notes"><summary>Motion sources: what is available here?</summary>
+    <p><strong>HOI-Retarget:</strong> four G1 pushing references from OMOMO: box, table, plastic box, and suitcase.
+    Videos replay the exported ball-hand G1 and the supplied moving object mesh. NPZs include the floor,
+    object trajectory, geometry, and source contact annotations. Motion data: CC BY-NC-SA 4.0; object meshes: MIT.
+    <a href="https://github.com/jnskkmhr/motion_library/blob/main/data_generator/hoi_retarget/README.md">Source and reproduction ↗</a></p>
     <p><strong>OmniRetarget:</strong> all 29 released climbing clips, with supplied terrain.
     These come from a source cited by ACP; its exact clip selection is not public.</p>
     <p><strong>LAFAN:</strong> the importer is available, but its five terrain-free previews were removed from this gallery.</p>
@@ -27,17 +32,17 @@
     <p><a href="https://arxiv.org/html/2610.31608v1">ACP paper, supplementary Table S1 ↗</a></p>
   </details>
   <div class="workspace">
-    <aside><div id="category-filter"><label for="category">Motion type</label><select id="category"></select></div><label for="search">Find a motion</label><input id="search" type="search" placeholder="Jump, crawl, climb…"><div class="list-heading"><span>AVAILABLE MOTIONS</span><span id="count"></span></div><div id="motion-list" role="group" aria-label="Choose a motion"></div><p id="empty" hidden>No matching motions.</p></aside>
+    <aside><div id="category-filter"><label for="category">Motion type</label><select id="category"></select></div><label for="search">Find a motion</label><input id="search" type="search" placeholder="Push, jump, crawl, climb…"><div class="list-heading"><span>AVAILABLE MOTIONS</span><span id="count"></span></div><div id="motion-list" role="group" aria-label="Choose a motion"></div><p id="empty" hidden>No matching motions.</p></aside>
     <section class="viewer" aria-label="Motion preview">
       <div class="view-heading"><div><p id="source-name" class="eyebrow"></p><h2 id="motion-name"></h2></div><span id="status" class="badge"></span></div>
       <div class="screen"><video id="video" controls playsinline preload="metadata" aria-label="Selected motion video"></video><p id="video-error" hidden>Video could not be loaded. Check that the data directory is served alongside docs.</p></div>
       <div class="controls"><div id="variants" role="group" aria-label="Motion variant"></div><label class="repeat"><input id="loop" type="checkbox"> Repeat</label><button id="previous" aria-label="Previous motion">←</button><span id="position"></span><button id="next" aria-label="Next motion">→</button></div>
-      <div class="details"><dl><div><dt>Duration</dt><dd id="duration"></dd></div><div><dt>Frame rate</dt><dd id="fps"></dd></div><div><dt>Terrain</dt><dd id="terrain"></dd></div></dl><div class="links"><a id="npz-github" class="primary" target="_blank" rel="noopener">View NPZ on GitHub ↗</a><a id="npz-download" download>Download NPZ ↓</a></div></div>
+      <div class="details"><dl><div><dt>Duration</dt><dd id="duration"></dd></div><div><dt>Frame rate</dt><dd id="fps"></dd></div><div><dt>Scene</dt><dd id="terrain"></dd></div></dl><div class="links"><a id="npz-github" class="primary" target="_blank" rel="noopener">View NPZ on GitHub ↗</a><a id="npz-download" download>Download NPZ ↓</a></div></div>
       <p id="clip-description" class="note" hidden></p>
       <p class="note">Kinematic replay · Dynamic tracking has not been validated. <a id="report" target="_blank" rel="noopener">View report ↗</a></p>
     </section>
   </div>
-  <footer><span>Unitree G1 · Spherical hand pads · Motion + terrain in one NPZ</span><span>Use ← → to change clips</span></footer>
+  <footer><span>Unitree G1 · Spherical hand pads · Robot + scene in one NPZ</span><span>Use ← → to change clips</span></footer>
 </main>
 <noscript>Enable JavaScript to select motions. Data files are available in the repository's data directory.</noscript>
 </body>

@@ -1,0 +1,25 @@
+{
+  "motion_sha256": "6bac7e44e2f5fcf65165f56a90c08726fcc73fb06eff73822ab96cf0986b7b82",
+  "frames": 417,
+  "fps": 50.0,
+  "duration_s": 8.34,
+  "max_joint_limit_excess_rad": 0.0,
+  "min_foot_corner_height_above_floor_m": -0.008705529218838659,
+  "min_object_vertex_height_above_floor_m": -0.006884733666815371,
+  "median_object_lowest_height_above_floor_m": -0.006117735718298517,
+  "source_contact_target_to_ball_surface_error_m": {
+    "median": 0.0018074814896446925,
+    "p95": 0.003280867447696654,
+    "max": 0.014281965125518506
+  },
+  "object_displacement_xy_m": 1.2035431614285232,
+  "dynamic_tracking_validated": false,
+  "full_body_collision_validated": false,
+  "note": "Contact errors use source-labeled palm targets and the exported G1 ball surfaces. Negative floor heights indicate geometric penetration. Source labels are not newly measured robot contacts.",
+  "status": "retained_kinematic_candidate",
+  "screening_thresholds": {
+    "max_joint_limit_excess_rad": 0.0001,
+    "max_floor_penetration_m": 0.025,
+    "max_contact_error_p95_m": 0.025
+  }
+}

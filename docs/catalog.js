@@ -98,6 +98,134 @@ window.MOTION_CATALOG = {
       "poster": "data/claw/02067_elbow_crawl/preview.jpg"
     },
     {
+      "id": "hoi_retarget/box_push",
+      "source": "hoi_retarget",
+      "source_name": "HOI-Retarget",
+      "name": "Two-hand box push",
+      "category": "Object pushing",
+      "description": "G1 reference with a moving object mesh and floor. Source hand-contact labels are retained; ball-hand contact and dynamic tracking require validation.",
+      "experimental": false,
+      "local_only": false,
+      "source_url": "https://huggingface.co/datasets/leggedrobotics/hoi-retarget",
+      "variants": [
+        {
+          "name": "Reference",
+          "npz": "data/hoi_retarget/box_push/motion.npz",
+          "video": "data/hoi_retarget/box_push/motion.mp4",
+          "fps": 50.0,
+          "frames": 327,
+          "duration": 6.54,
+          "last_sample_time": 6.52,
+          "sha256": "d48d51bb0f07887862499ab377966828d1dff5e1ac8f2f941985723c1f2fb127",
+          "asset": "UNITREE_G1_29DOF_BALL_HAND_CFG",
+          "terrain": "boxes",
+          "object": "largebox"
+        }
+      ],
+      "reports": {
+        "quality_review": "data/hoi_retarget/box_push/quality_review.json",
+        "provenance": "data/hoi_retarget/box_push/provenance.json",
+        "render": "data/hoi_retarget/box_push/render.json"
+      },
+      "poster": "data/hoi_retarget/box_push/preview.jpg"
+    },
+    {
+      "id": "hoi_retarget/plastic_box_push",
+      "source": "hoi_retarget",
+      "source_name": "HOI-Retarget",
+      "name": "Low box push",
+      "category": "Object pushing",
+      "description": "G1 reference with a moving object mesh and floor. Source hand-contact labels are retained; ball-hand contact and dynamic tracking require validation.",
+      "experimental": false,
+      "local_only": false,
+      "source_url": "https://huggingface.co/datasets/leggedrobotics/hoi-retarget",
+      "variants": [
+        {
+          "name": "Reference",
+          "npz": "data/hoi_retarget/plastic_box_push/motion.npz",
+          "video": "data/hoi_retarget/plastic_box_push/motion.mp4",
+          "fps": 50.0,
+          "frames": 417,
+          "duration": 8.34,
+          "last_sample_time": 8.32,
+          "sha256": "6bac7e44e2f5fcf65165f56a90c08726fcc73fb06eff73822ab96cf0986b7b82",
+          "asset": "UNITREE_G1_29DOF_BALL_HAND_CFG",
+          "terrain": "boxes",
+          "object": "plasticbox"
+        }
+      ],
+      "reports": {
+        "quality_review": "data/hoi_retarget/plastic_box_push/quality_review.json",
+        "provenance": "data/hoi_retarget/plastic_box_push/provenance.json",
+        "render": "data/hoi_retarget/plastic_box_push/render.json"
+      },
+      "poster": "data/hoi_retarget/plastic_box_push/preview.jpg"
+    },
+    {
+      "id": "hoi_retarget/suitcase_push",
+      "source": "hoi_retarget",
+      "source_name": "HOI-Retarget",
+      "name": "Two-hand suitcase push",
+      "category": "Object pushing",
+      "description": "G1 reference with a moving object mesh and floor. Source hand-contact labels are retained; ball-hand contact and dynamic tracking require validation.",
+      "experimental": false,
+      "local_only": false,
+      "source_url": "https://huggingface.co/datasets/leggedrobotics/hoi-retarget",
+      "variants": [
+        {
+          "name": "Reference",
+          "npz": "data/hoi_retarget/suitcase_push/motion.npz",
+          "video": "data/hoi_retarget/suitcase_push/motion.mp4",
+          "fps": 50.0,
+          "frames": 324,
+          "duration": 6.48,
+          "last_sample_time": 6.46,
+          "sha256": "489150477d6d0ccdf62297d7421e4dc753ceb3ef48b77a6f30372a859bb0b8b7",
+          "asset": "UNITREE_G1_29DOF_BALL_HAND_CFG",
+          "terrain": "boxes",
+          "object": "suitcase"
+        }
+      ],
+      "reports": {
+        "quality_review": "data/hoi_retarget/suitcase_push/quality_review.json",
+        "provenance": "data/hoi_retarget/suitcase_push/provenance.json",
+        "render": "data/hoi_retarget/suitcase_push/render.json"
+      },
+      "poster": "data/hoi_retarget/suitcase_push/preview.jpg"
+    },
+    {
+      "id": "hoi_retarget/table_push",
+      "source": "hoi_retarget",
+      "source_name": "HOI-Retarget",
+      "name": "Two-hand table push",
+      "category": "Object pushing",
+      "description": "G1 reference with a moving object mesh and floor. Source hand-contact labels are retained; ball-hand contact and dynamic tracking require validation.",
+      "experimental": false,
+      "local_only": false,
+      "source_url": "https://huggingface.co/datasets/leggedrobotics/hoi-retarget",
+      "variants": [
+        {
+          "name": "Reference",
+          "npz": "data/hoi_retarget/table_push/motion.npz",
+          "video": "data/hoi_retarget/table_push/motion.mp4",
+          "fps": 50.0,
+          "frames": 281,
+          "duration": 5.62,
+          "last_sample_time": 5.6,
+          "sha256": "8ec4622a27981137fc9da5769bbdf2789e53886421957f5c5bbb95244b216a42",
+          "asset": "UNITREE_G1_29DOF_BALL_HAND_CFG",
+          "terrain": "boxes",
+          "object": "largetable"
+        }
+      ],
+      "reports": {
+        "quality_review": "data/hoi_retarget/table_push/quality_review.json",
+        "provenance": "data/hoi_retarget/table_push/provenance.json",
+        "render": "data/hoi_retarget/table_push/render.json"
+      },
+      "poster": "data/hoi_retarget/table_push/preview.jpg"
+    },
+    {
       "id": "omniretarget/climb_00",
       "source": "omniretarget",
       "source_name": "OmniRetarget",

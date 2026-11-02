@@ -39,3 +39,26 @@ See the [catalog](catalog.json), [extraction manifest](import_manifest.json), an
 per-clip provenance. Catalog checksums apply to the current canonical NPZ, not
 the original upstream file. The metadata normalization does not change motion
 arrays. Videos are kinematic visualization, not evidence of stable control.
+
+## Moving-object references
+
+Object-pushing clips preserve the same robot and static-terrain fields above, and
+add **one moving rigid object**. Its mesh is separate from `terrain_*`; it must not
+be fused into static terrain. Robot, object, and floor share the same reference frame.
+
+| Key | Shape / meaning |
+| --- | --- |
+| `object_name` | Scalar string |
+| `object_pos_w`, `object_lin_vel_w`, `object_ang_vel_w` | `(T, 3)`; world position and velocities |
+| `object_quat_w` | `(T, 4)`, xyzw |
+| `object_vertices`, `object_faces` | `(V, 3)` local mesh vertices in meters; `(F, 3)` triangle indices |
+| `source_contact_link_names` | `(K,)`; link names from the upstream retargeting model |
+| `source_object_contact_flags` | `(T, K)`, Boolean source annotations |
+| `source_contact_points_object` | `(T, K, 3)`; source targets in the scaled object's local frame; NaN allowed for inactive contacts |
+| `object_ground_contact` | `(T,)`, Boolean source annotations |
+
+The source palm pads differ from our spherical hands. Source annotations are
+preserved separately from measured robot contacts; geometric alignment is reported
+in each clip's `quality_review.json`. Object meshes are already scaled: do not
+apply the source scale again. The player animates them from the same frame index
+as the robot. The static-terrain training integration does not yet train pushing.

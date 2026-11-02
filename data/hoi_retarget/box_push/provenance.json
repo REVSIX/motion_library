@@ -1,0 +1,30 @@
+{
+  "display_name": "Two-hand box push",
+  "category": "Object pushing",
+  "description": "G1 reference with a moving object mesh and floor. Source hand-contact labels are retained; ball-hand contact and dynamic tracking require validation.",
+  "source_url": "https://huggingface.co/datasets/leggedrobotics/hoi-retarget",
+  "source_dataset": "leggedrobotics/hoi-retarget",
+  "source_revision": "b5ac8125e497e6735d6314e63a0e1eedf6229336",
+  "source_clip_id": "omomo/unitree_g1/sub12_largebox_009",
+  "source_motion_capture": "OMOMO",
+  "source_contact_annotations": "InterAct",
+  "license": "CC-BY-NC-SA-4.0",
+  "object_mesh_license": "MIT",
+  "object_mesh_sources": [
+    "assets/objects/largebox.urdf",
+    "assets/objects/objects/largebox/largebox.obj"
+  ],
+  "object_mesh_scale": 0.8299999833106995,
+  "source_fps": 30.0,
+  "source_frames": 197,
+  "source_qc_pass": true,
+  "source_joint_step_max_deg": 9.634123802185059,
+  "source_object_displacement_xy_m": 1.5349420524085982,
+  "source_two_hand_contact_fraction": 0.8781725888324873,
+  "source_quaternion_order": "wxyz",
+  "output_quaternion_order": "xyzw",
+  "floor": "Source z=0 floor represented by a finite 0.1 m thick slab; top surface remains z=0.",
+  "object_trajectory_modified": false,
+  "dynamic_tracking_validated": false,
+  "import_sha256": "9c2af21744f7089c85c574fd9bb6a5b1c681dc6d1a4316b0d8feb3ef15f3673a"
+}

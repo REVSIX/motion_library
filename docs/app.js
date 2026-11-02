@@ -45,7 +45,9 @@ function select(clip, index = 0) {
   $("status").className = "badge" + (clip.experimental ? " experimental" : "");
   $("duration").textContent = `${v.duration.toFixed(2)} s`;
   $("fps").textContent = `${v.fps} FPS`;
-  $("terrain").textContent = ({mesh:"Triangle mesh",boxes:"Boxes",ground:"Ground",missing:"Obstacle not supplied"})[v.terrain];
+  const terrainLabel = clip.source === "hoi_retarget" ? "Floor" : ({mesh:"Triangle mesh",boxes:"Boxes",ground:"Ground",missing:"Obstacle not supplied"})[v.terrain];
+  const objectLabel = ({largebox:"box",plasticbox:"plastic box",largetable:"table",suitcase:"suitcase"})[v.object] || v.object;
+  $("terrain").textContent = terrainLabel + (v.object ? ` + moving ${objectLabel}` : "");
   const upstream = clip.local_only || clip.preview_only;
   $("npz-github").hidden = upstream && !clip.source_url;
   $("npz-github").href = upstream ? (clip.source_url || "#") : github(v.npz);
@@ -55,7 +57,7 @@ function select(clip, index = 0) {
   $("clip-description").textContent = clip.description || "";
   $("clip-description").hidden = !clip.description;
   $("npz-download").download = `${clip.id.replaceAll("/", "_")}_${index === 0 ? "motion" : "generated"}.npz`;
-  const report = clip.reports.terrain_validation || clip.reports.terrain_fit || clip.reports.validation || clip.reports.source_validation || clip.reports.provenance;
+  const report = clip.reports.quality_review || clip.reports.terrain_validation || clip.reports.terrain_fit || clip.reports.validation || clip.reports.source_validation || clip.reports.provenance;
   $("report").hidden = !report; if (report) $("report").href = clip.local_only ? local(report) : github(report);
   $("video-error").hidden = true;
   $("video").pause(); $("video").src = local(v.video);
@@ -85,6 +87,6 @@ document.addEventListener("keydown", e => {
 });
 $("repository").href = config.repository; $("total").textContent = clips.length;
 try { selected = clips.find(c => c.id === decodeURIComponent(location.hash.slice(1))); } catch { selected = null; }
-if (selected?.source === "mixamo") source = "mixamo";
-selected ||= clips.find(c => c.id === "mixamo/crawling") || clips.find(c => c.id === "parc/jump_005") || clips[0];
+if (selected?.source) source = selected.source;
+selected ||= clips.find(c => c.id === "hoi_retarget/box_push") || clips.find(c => c.id === "mixamo/crawling") || clips.find(c => c.id === "parc/jump_005") || clips[0];
 renderCategories(); renderSources(); renderList();

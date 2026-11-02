@@ -12,6 +12,7 @@ from tools.terrain_contract import require_active_dataset
 ROOT = Path(__file__).resolve().parents[1]
 LABELS = {
     "claw": "CLAW",
+    "hoi_retarget": "HOI-Retarget",
     "omniretarget": "OmniRetarget",
     "parc": "PARC",
     "deep_wholebody_parkour": "Deep Whole-body Parkour",
@@ -60,6 +61,7 @@ def main():
                 with np.load(npz, allow_pickle=False) as data:
                     fps = float(np.asarray(data["fps"]).item())
                     frames = len(data["joint_pos"])
+                    object_name = str(data["object_name"].item()) if "object_name" in data else None
                     asset = str(data["robot_asset"].item()) if "robot_asset" in data else "unspecified"
                     terrain = (
                         "mesh"
@@ -80,6 +82,7 @@ def main():
                         "sha256": hashlib.sha256(npz.read_bytes()).hexdigest(),
                         "asset": asset,
                         "terrain": terrain,
+                        **({"object": object_name} if object_name else {}),
                     }
                 )
             reports = {p.stem: str(p.relative_to(root)) for p in folder.glob("*.json")}

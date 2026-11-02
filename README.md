@@ -1,6 +1,6 @@
 # G1 motion library
 
-Motion references and terrain for the 29-DoF Unitree G1 with spherical hand pads.
+Motion references, terrain, and moving objects for the 29-DoF Unitree G1 with spherical hand pads.
 Includes source importers, Kimodo generation tools, corrected PARC retargeting,
 and a video gallery. These are kinematic references, not trained-policy rollouts.
 
@@ -12,6 +12,7 @@ data_generator/
   kimodo/                 # Generation, constraints, contact refinement
   claw/                   # Import released G1 trajectories
   omniretarget/           # Import G1 motions and supplied terrain
+  hoi_retarget/           # Import G1 pushing with moving-object meshes and contacts
   lafan/                  # Download/import public G1 retargets for local use
   mixamo/                 # Import local FBX with Blender + G1 IK
   parc/                   # Human-to-G1 IK with corrected arm mapping
@@ -64,10 +65,12 @@ drivers are not pip dependencies of this standalone library. See the
 
 ## Data and provenance
 
-The active catalog contains 75 clips: 41 non-Kimodo references, 22 experimental
+The active catalog contains 79 clips: 45 non-Kimodo references, 22 experimental
 Kimodo references, and 12 Mixamo candidates, including five restored ladder clips. Public Mixamo entries
 include videos, paired NPZs with terrain, and provenance/review reports. Every active
 NPZ contains box or mesh terrain, and every clip has one current video variant.
+Four HOI-Retarget/OMOMO pushing references include their moving objects, source contact labels,
+and exact-asset replay videos; see [pushing import](data_generator/hoi_retarget/README.md).
 Terrain-free LAFAN and early Kimodo references and poor Mixamo pairings have been
 removed. See [ACP source additions](data_generator/ACP_SOURCES.md) for provenance
 and [the curation record](data/curation.json) for exclusions.
